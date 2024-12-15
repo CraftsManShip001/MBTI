@@ -14,9 +14,12 @@ WORKDIR /app
 
 # 로컬 파일을 컨테이너로 복사
 COPY . /app
+COPY requirements.txt .
 
 # requirements.txt에서 의존성 설치
 RUN if [ -f "./requirements.txt" ]; then pip install -r requirements.txt; fi
+
+COPY . .
 
 # FastAPI 앱 실행
 CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
