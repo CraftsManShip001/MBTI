@@ -7,6 +7,14 @@ from passlib.context import CryptContext
 from konlpy.tag import Okt
 import scipy as sp
 import pickle
+import jpype
+import os
+jvmpath = "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so"
+
+if not jpype.isJVMStarted():
+    jpype.startJVM(jvmpath)
+
+t = Okt()
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated="auto")
 
