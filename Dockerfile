@@ -1,9 +1,7 @@
 # Python 3.12 이미지 사용
 FROM python:3.12
 
-# Java 설치
-RUN apt-get update && apt-get install -y openjdk-8-jdk && \
-    apt-get clean
+RUN apt-get update && apt-get install -y openjdk-8-jdk
 
 # 환경 변수 설정
 ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
