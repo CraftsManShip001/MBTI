@@ -5,10 +5,6 @@ import scipy as sp
 import pickle
 import jpype
 import os
-jvmpath = "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so"
-
-if not jpype.isJVMStarted():
-    jpype.startJVM(jvmpath)
 t = Okt()
 
 vectorizer = CountVectorizer(min_df=1,decode_error='ignore')

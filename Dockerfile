@@ -1,17 +1,8 @@
 # Python 3.12 이미지 사용
 FROM python:3.12
 
-RUN apt-get update && apt-get install -y openjdk-8-jdk
-
-# 환경 변수 설정
-ENV JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-ENV PATH=$JAVA_HOME/bin:$PATH
-ENV LD_LIBRARY_PATH=$JAVA_HOME/jre/lib/amd64/server:$LD_LIBRARY_PATH
-
 # 의존성 설치
 RUN pip install --upgrade pip
-RUN pip install wheel
-
 
 # 시스템 의존성 설치 (필요한 경우만 사용)
 RUN apt-get update && apt-get install -y \
