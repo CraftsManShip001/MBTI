@@ -5,6 +5,7 @@ import scipy as sp
 import pickle
 import jpype
 import os
+jpype.startJVM()
 t = Okt()
 
 vectorizer = CountVectorizer(min_df=1,decode_error='ignore')

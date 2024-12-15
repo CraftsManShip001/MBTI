@@ -9,7 +9,7 @@ import scipy as sp
 import pickle
 import jpype
 import os
-
+jpype.startJVM()
 t = Okt()
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated="auto")
