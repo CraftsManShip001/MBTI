@@ -10,6 +10,7 @@ import pickle
 import jpype
 import os
 
+
 t = Okt()
 
 bcrypt_context = CryptContext(schemes=['bcrypt'], deprecated="auto")
