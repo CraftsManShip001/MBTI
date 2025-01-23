@@ -1,14 +1,16 @@
-from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import CountVectorizer,TfidfVectorizer
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel,Field
 from fastapi.middleware.cors import CORSMiddleware
 from passlib.context import CryptContext
 from konlpy.tag import Okt
 import scipy as sp
-import pickle
+import pickle,jpype
+import subprocess
 import jpype
-import os
+
+jvm_lib = "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so"
+jpype.startJVM(jvm_lib, "-Dfile.encoding=UTF8", "-ea")
 
 
 t = Okt()
@@ -19,6 +21,7 @@ app = FastAPI()
 
 origins = [
     "http://localhost:3000",
+    "http://localhost:8080",
 ]
 
 app.add_middleware(
@@ -31,8 +34,6 @@ app.add_middleware(
 
 class getMbti(BaseModel):
     text : str
-
-t = Okt()
 
 with open("./X.pickle", 'rb') as fi:
     X = pickle.load(fi)
@@ -57,7 +58,6 @@ def getMbti(request : getMbti):
         for word in content:
             sentence = sentence + ' ' + word
         new_post_for_vectorize.append(sentence)
-
     new_post_vec = vectorizer.transform(new_post_for_vectorize)
     for i in range(1600):
         post_vec = X.getrow(i)

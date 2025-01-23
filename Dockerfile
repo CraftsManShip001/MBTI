@@ -1,29 +1,45 @@
-# Python 3.12 이미지 사용
-FROM python:3.12
+FROM ubuntu:latest
+LABEL maintainer="roseline124 <guseod24@gmail.com>"
 
-# Java 환경 변수 설정
-ENV JAVA_HOME=/Library/Java/JavaVirtualMachines/openjdk-8.jdk/Contents/Home
+ENV LANG=C.UTF-8
+ENV DEBIAN_FRONTEND=noninteractive
 
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends tzdata g++ curl wget \
+    build-essential libssl-dev zlib1g-dev libbz2-dev libreadline-dev \
+    libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev \
+    libxmlsec1-dev libffi-dev liblzma-dev openjdk-8-jdk && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# 필수 패키지 설치
-RUN apt-get update && apt-get install -y \
-    g++ \
-    default-jdk \
-    && rm -rf /var/lib/apt/lists/*
+# Set JAVA_HOME
+ENV JAVA_HOME="/usr/lib/jvm/java-1.8-openjdk"
 
-# Python 패키지 설치
-RUN pip install --upgrade pip
-RUN pip install konlpy
+# Install Python
+RUN wget https://www.python.org/ftp/python/3.11.6/Python-3.11.6.tgz && \
+    tar xvf Python-3.11.6.tgz && \
+    cd Python-3.11.6 && \
+    ./configure && \
+    make && \
+    make install && \
+    cd .. && \
+    rm -rf Python-3.11.6.tgz Python-3.11.6 && \
+    ln -s /usr/local/bin/python3.11 /usr/bin/python && \
+    ln -s /usr/local/bin/pip3 /usr/bin/pip && \
+    pip install --upgrade pip
 
-# 작업 디렉토리 설정
+# Set working directory
 WORKDIR /app
 
-# 로컬 파일을 컨테이너로 복사
+# Copy files
 COPY . /app
-COPY requirements.txt .
 
-# requirements.txt에서 의존성 설치
-RUN if [ -f "./requirements.txt" ]; then pip install -r requirements.txt; fi
+# Install Python packages
+RUN pip install -r requirements.txt
 
-# FastAPI 앱 실행
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Expose port
+EXPOSE 80
+
+# Command to run the application
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "80"]
