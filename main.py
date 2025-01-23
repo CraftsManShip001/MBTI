@@ -8,9 +8,7 @@ import scipy as sp
 import pickle,jpype
 import subprocess
 import jpype
-
-jvm_lib = "/usr/lib/jvm/java-1.8-openjdk"
-jpype.startJVM(jvm_lib, "-Dfile.encoding=UTF8", "-ea")
+jpype.startJVM(jpype.getDefaultJVMPath(), "-Dfile.encoding=UTF8", "-ea")
 
 
 t = Okt()
