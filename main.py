@@ -9,7 +9,7 @@ import pickle,jpype
 import subprocess
 import jpype
 
-jvm_lib = "/usr/lib/jvm/java-8-openjdk-amd64/jre/lib/amd64/server/libjvm.so"
+jvm_lib = "/usr/lib/jvm/java-1.8-openjdk"
 jpype.startJVM(jvm_lib, "-Dfile.encoding=UTF8", "-ea")
 
 
